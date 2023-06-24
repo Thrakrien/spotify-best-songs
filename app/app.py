@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import pickle
 from PIL import Image
-from st_files_connection import FilesConnection
+#from st_files_connection import FilesConnection
 
 # # Buscando o pickle do modelo
 # with open(r'C:\Users\calebe.albertino\Desktop\Dinamica\notebooks\reg.pkl','rb') as file:
