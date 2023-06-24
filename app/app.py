@@ -2,11 +2,14 @@ import streamlit as st
 import pandas as pd
 import pickle
 from PIL import Image
+from st_files_connection import FilesConnection
 
 # Buscando o pickle do modelo
 with open(r'C:\Users\calebe.albertino\Desktop\Dinamica\notebooks\reg.pkl','rb') as file:
     model = pickle.load(file)
-  
+
+conn = st.experimental_connection('s3', type=FilesConnection)
+model = conn.read("s3://models-portifolio/spotify-top-songs/reg.pkl")
 
 # Salvando os dados em cache
 @ st.cache_data
