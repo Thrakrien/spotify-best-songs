@@ -38,10 +38,10 @@ def predict(year, bpm, energy,
     return prediction
 
 
-image = Image.open(r"C:\Users\caleb\Pictures\Spotify_Logo_RGB_Green.png")
+#image = Image.open(r"https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png")
 
 
-st.image(image)
+st.image(r"https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png")
 st.title('Popularidade da Música - Spotify')
 
 
