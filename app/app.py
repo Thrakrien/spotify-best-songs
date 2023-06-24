@@ -13,10 +13,7 @@ s3_client = boto3.client(
     aws_secret_access_key=os.getenv('SECRET_KEY')
 )
 
-bucket_name = os.getenv('BUCKET'),
-file_name = os.getenv('KEY')
-
-response = s3_client.get_object(Bucket=bucket_name, Key=file_name)
+response = s3_client.get_object(Bucket = 'models-portifolio', Key = 'spotify-top-songs/reg.pkl')
 file_content = response['Body'].read()
 
 
@@ -41,7 +38,7 @@ def predict(year, bpm, energy,
     return prediction
 
 
-image = Image.open(r"C:\Users\calebe.albertino\Pictures\logo-spotify-verde-PNG.png")
+image = Image.open(r"C:\Users\caleb\Pictures\Spotify_Logo_RGB_Green.png")
 
 
 st.image(image)
