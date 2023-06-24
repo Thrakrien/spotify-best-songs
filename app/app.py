@@ -3,35 +3,25 @@ import pandas as pd
 import os
 import pickle
 from PIL import Image
-#from st_files_connection import FilesConnection
-
-# # Buscando o pickle do modelo
-# with open(r'C:\Users\calebe.albertino\Desktop\Dinamica\notebooks\reg.pkl','rb') as file:
-#     model = pickle.load(file)
-
 import boto3
 from io import BytesIO
 
 # Configurar as credenciais do AWS
-s3 = boto3.client('s3')
+s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=os.getenv('ACCESS_KEY'),
+    aws_secret_access_key=os.getenv('SECRET_KEY')
+)
 
-# Baixar o arquivo .pkl do S3
-bucket_name = 'nome_do_seu_bucket'
-file_name = 'seu_arquivo.pkl'
+bucket_name = os.getenv('BUCKET'),
+file_name = os.getenv('KEY')
 
-bucket_name = os.getenv('ACCESS_KEY'),
-file_name = os.getenv('SECRET_KEY')
-
-response = s3.get_object(Bucket=bucket_name, Key=file_name)
+response = s3_client.get_object(Bucket=bucket_name, Key=file_name)
 file_content = response['Body'].read()
 
-# Carregar o arquivo .pkl na memória usando BytesIO
+
 model = pickle.load(BytesIO(file_content))
 
-# Realizar a previsão
-# ... coloque aqui o código para preparar os dados de entrada para a previsão
-
-# Salvando os dados em cache
 @ st.cache_data
 
 def predict(year, bpm, energy,
