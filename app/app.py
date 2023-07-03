@@ -29,22 +29,20 @@ model = pickle.load(BytesIO(file_content))
 
 @ st.cache_data
 
-def predict(energy,
-            danceability,
-            liveness, valence,
-            acousticness,
-            speechiness):
+# def predict(energy,
+#             danceability,
+#             liveness, valence,
+#             acousticness,
+#             speechiness):
     
-    prediction = model.predict(pd.DataFrame([[danceability, energy, speechiness,
-                                              acousticness, liveness, valence]], columns=[
-                                                  'year', 'bpm', 'energy',
-                                                  'danceability', 'dB', 'liveness',
-                                                  'valence', 'duration', 'acousticness',
-                                                  'speechiness']))
-    return prediction
+#     prediction = model.predict(pd.DataFrame([[danceability, energy, speechiness,
+#                                               acousticness, liveness, valence]], columns=[
+#                                                   'danceability', 'energy', 'speechiness',
+#                                                   'acousticness', 'liveness', 'valence']))
+#     return prediction
 
 def search_music(music):
-    choosed_music = sp.search(q=str(music),type='track')
+    choosed_music = sp.search(q=music,type='track')
     music_df = pd.DataFrame.from_dict(choosed_music,orient='index')
     music_df = music_df.explode('items')
     music_df = music_df['items'][0]
@@ -63,8 +61,8 @@ def search_music(music):
     }
     
     data_clean = pd.DataFrame(selected_data,index=[0])
-    return data_clean
-
+    prediction = model.predict(data_clean)
+    return prediction
 #image = Image.open(r"https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png")
 
 
@@ -82,7 +80,7 @@ st.sidebar.success("Digite o nome da música abaixo: ")
 
 input = st.text_area('Insira uma música', 'Digite aqui')
 with st.spinner('Fazendo coisas de AI'):
-    output = predict(search_music(input))
+    output = search_music(input)
 
 #title = st.text_input('Movie title', 'Life of Brian')
 
@@ -109,5 +107,5 @@ with st.spinner('Fazendo coisas de AI'):
 
 
 if st.button('Popularidade da Música'):
-    popularity = predict(search_music(input))
-    st.success(f'A popularidade da música é: {popularity[0]:.2f}')
+    #predict(search_music(input[1]))
+    st.success(f'A popularidade da música é: {output[0]:.2f}')
