@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 import pickle
-from PIL import Image
 import boto3
 from io import BytesIO
+from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -15,8 +15,10 @@ s3_client = boto3.client(
     aws_secret_access_key=os.getenv('SECRET_KEY')
 )
 
-client_id='1ea081e3c4d04a178150f5287edcfb7f'
-client_secret='2788f6b0446a47fca4de16f370fc98b8'
+
+load_dotenv(r'D:\Estudos\Codes\spotify-best-songs\notebooks\.env')
+client_id=os.getenv('CLIENT_ID')
+client_secret=os.getenv('CLIENT_SECRET')
 
 client_credentials_manager = SpotifyClientCredentials(client_id= client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
@@ -28,18 +30,6 @@ file_content = response['Body'].read()
 model = pickle.load(BytesIO(file_content))
 
 @ st.cache_data
-
-# def predict(energy,
-#             danceability,
-#             liveness, valence,
-#             acousticness,
-#             speechiness):
-    
-#     prediction = model.predict(pd.DataFrame([[danceability, energy, speechiness,
-#                                               acousticness, liveness, valence]], columns=[
-#                                                   'danceability', 'energy', 'speechiness',
-#                                                   'acousticness', 'liveness', 'valence']))
-#     return prediction
 
 def search_music(music):
     choosed_music = sp.search(q=music,type='track')
@@ -63,7 +53,6 @@ def search_music(music):
     data_clean = pd.DataFrame(selected_data,index=[0])
     prediction = model.predict(data_clean)
     return prediction
-#image = Image.open(r"https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png")
 
 
 st.image(r"https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png")
@@ -76,36 +65,10 @@ st.markdown(
 """
 )
 
-st.sidebar.success("Digite o nome da música abaixo: ")
-
 input = st.text_area('Insira uma música', 'Digite aqui')
 with st.spinner('Fazendo coisas de AI'):
     output = search_music(input)
 
-#title = st.text_input('Movie title', 'Life of Brian')
-
-# year = st.sidebar.number_input('Ano da Música:', min_value=1500, max_value=2030, value=2023)
-
-# bpm = st.sidebar.number_input('BPM da música:', min_value=10,max_value=100000, value=100)
-
-# energy = st.sidebar.number_input('Energia:', min_value=10,max_value=1000,value=100)
-
-# danceability = st.sidebar.number_input('Taxa Dança:', min_value=10,max_value=1000,value=100)
-
-# dB = st.sidebar.number_input('Taxa Barulho:', min_value=-30, max_value=0, value=-5)
-
-# liveness = st.sidebar.number_input('Taxa Ao Vivo:', min_value=0.1, max_value=100.0, value=1.0)
-
-# valence = st.sidebar.number_input('Taxa Humor Positivo:', min_value=0.0, max_value=200.0, value=10.0)
-
-# duration = st.sidebar.number_input('Duração (s):', min_value=0, max_value=90000000, value=150)
-
-# acousticness = st.sidebar.number_input('Taxa Acústica:', min_value=0.0, max_value=200.0, value=10.0)
-
-# speechiness = st.sidebar.number_input('Taxa Cantada:', min_value=0.0, max_value=200.0, value=10.0)
-
-
 
 if st.button('Popularidade da Música'):
-    #predict(search_music(input[1]))
     st.success(f'A popularidade da música é: {output[0]:.2f}')
