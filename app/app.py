@@ -4,9 +4,9 @@ import os
 import pickle
 import boto3
 from io import BytesIO
-from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from dotenv import load_dotenv
 
 # Configurar as credenciais do AWS
 s3_client = boto3.client(
