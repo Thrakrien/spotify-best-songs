@@ -1,4 +1,4 @@
-![Alt text](image-1.png)
+![image-1.png](https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png)
 # Spotify Best Songs
 
 O projeto em questão parte de criar uma aplicação que estima a popularidade das músicas do Spotify atráves de Machine Learning. [Clique aqui](https://thrakrien-spotify-popularity.streamlit.app/) para testar o app.
