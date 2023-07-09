@@ -30,7 +30,7 @@ file_content = response['Body'].read()
 # Carregando o modelo
 model = pickle.load(BytesIO(file_content))
 
-@ st.cache_data
+#@ st.cache_data
 
 # Criando a função search_music para buscar as musicas
 def search_music(music):
